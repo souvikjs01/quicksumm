@@ -1,16 +1,15 @@
-'use client'
 import { FileText } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button'
 import { navLinks } from '@/lib/constants'
 import { useAuth, useClerk, UserButton } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 
-export default function Header() {
-  const { isSignedIn } = useAuth()
-  const { signOut } = useClerk()
+export default async function Header() {
+  const { userId } = await auth()
   return (
-    <header className="border-b overflow-hidden">
+    <header className="border-b bg-white/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container flex items-center justify-between max-w-6xl mx-auto py-6 md:px-6">
           <div className="flex items-center gap-2 font-bold text-xl">
             <FileText className="h-6 w-6 text-primary" />
@@ -18,7 +17,7 @@ export default function Header() {
                 Quick<span className=' text-blue-600'>Summ</span>
             </h1>
           </div>
-          {isSignedIn ? <></> : <nav className="hidden md:flex gap-6">
+          <nav className="hidden md:flex gap-6">
             {navLinks.map((item) => (
                 <Link 
                     key={item.id}
@@ -28,16 +27,16 @@ export default function Header() {
                     {item.title}
                 </Link>
             ))}
-          </nav>}
+          </nav>
           <div className="flex items-center gap-4">
-            {isSignedIn ? (
+            {userId ? (
                 <div className=' flex items-center gap-6'>
-                    <UserButton />
-                    <Button 
-                        onClick={() => signOut()}
-                    >
-                        Log out
-                    </Button>
+                  <Button asChild>
+                    <Link href='/dashboard'>
+                      Dashboard
+                    </Link>
+                  </Button>
+                  <UserButton />
                 </div>
             ) : (
                 <Button asChild>
