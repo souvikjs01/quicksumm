@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 QuickSumm  
 
-## Getting Started
+QuickSumm is a SaaS (Software as a Service) application that allows users to extract and summarize the key points from PDF files effortlessly. It combines advanced text extraction, AI-based summarization, and secure payment handling to provide a seamless user experience.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌟 Features  
+✅ **PDF Text Extraction**  
+- Extracts text from PDF files using `pdf.js` for accurate text retrieval.  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+✅ **AI-Powered Summarization**  
+- Uses the Gemini API to generate concise bullet-point summaries based on extracted text.  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+✅ **Secure Payment Integration**  
+- Stripe payment integration for subscription and one-time payments.  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+✅ **Modern Tech Stack**  
+- Built with Next.js, TypeScript, and Prisma for a scalable and type-safe architecture.  
 
-## Learn More
+✅ **User Authentication & Session Management**  
+- Secure login and session handling with cookies and JWT.  
 
-To learn more about Next.js, take a look at the following resources:
+✅ **PostgreSQL Database**  
+- Prisma ORM used to manage user data, payment records, and summarization history.  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+✅ **Responsive Design**  
+- Fully responsive UI with a clean, minimal design.  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🏗️ Tech Stack  
+| Technology | Purpose |
+|------------|---------|
+| **Next.js** | Frontend and Backend (API routes) |
+| **TypeScript** | Type safety and better developer experience |
+| **Prisma** | ORM for PostgreSQL |
+| **PostgreSQL** | Database |
+| **pdf.js** | PDF text extraction |
+| **Gemini API** | AI-based summarization |
+| **Stripe** | Payment processing |
+| **Tailwind CSS** | Styling |
+| **React-Hook-Form + Zod** | Form handling and validation |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 How It Works  
+### 1. **Upload a PDF File**  
+- The user uploads a PDF file through a secure form.  
+- `pdf.js` extracts the text content from the PDF.  
+
+### 2. **Summarization**  
+- The extracted text is sent to the Gemini API.  
+- The AI model generates a structured summary with key points.  
+
+### 3. **Display the Summary**  
+- The summary is displayed in a clean, readable format.  
+- The user can copy or download the summary.  
+
+### 4. **Payment Handling**  
+- Users can subscribe to a premium plan or make a one-time payment using Stripe.  
+- Payment status and user tiers are stored securely in the database.  
+
