@@ -51,13 +51,13 @@ export default function Page() {
     }
   }, [selectedFile])
 
-  const formatSummaryContent = (text: string) => {
-    return text.split('\n').map((paragraph, index) => (
-      <p key={index} className="mb-4 text-gray-300 leading-relaxed">
-        {paragraph.replace(/^\s*[\-•*]\s*/, '• ')}
-      </p>
-    ))
-  }
+  // const formatSummaryContent = (text: string) => {
+  //   return text.split('\n').map((paragraph, index) => (
+  //     <p key={index} className="mb-4 text-gray-300 leading-relaxed">
+  //       {paragraph.replace(/^\s*[\-•*]\s*/, '• ')}
+  //     </p>
+  //   ))
+  // }
 
   return (
     <div>
@@ -85,6 +85,7 @@ export default function Page() {
         >
           {loading ? 'Processing...' : 'Analyze Document'}
         </button>
+        {error && <p>{error}</p>}
         <p>summary:--{summary}</p>
         {/* {summary && (
               <div className="bg-[#1A1A23] rounded-2xl p-8 shadow-2xl border border-[#2A2A35] animate-fade-in">

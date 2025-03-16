@@ -1,4 +1,3 @@
-import Demos from "@/components/home/Demos";
 import Faq from "@/components/home/Faq";
 import Features from "@/components/home/Features";
 import Footer from "@/components/home/Footer";
