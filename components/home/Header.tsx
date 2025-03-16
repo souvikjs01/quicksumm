@@ -1,13 +1,13 @@
+'use client'
 import { FileText } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button'
 import { navLinks } from '@/lib/constants'
 import { useAuth, useClerk, UserButton } from '@clerk/nextjs'
-import { auth } from '@clerk/nextjs/server'
 
-export default async function Header() {
-  const { userId } = await auth()
+export default function Header() {
+  const { isSignedIn } = useAuth()
   return (
     <header className="border-b bg-white/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container flex items-center justify-between max-w-6xl mx-auto py-6 md:px-6">
@@ -29,7 +29,7 @@ export default async function Header() {
             ))}
           </nav>
           <div className="flex items-center gap-4">
-            {userId ? (
+            {isSignedIn ? (
                 <div className=' flex items-center gap-6'>
                   <Button asChild>
                     <Link href='/dashboard'>
