@@ -11,8 +11,7 @@ import {
     SidebarMenu, 
     SidebarMenuButton, 
     SidebarMenuItem, 
-    SidebarSeparator, 
-    useSidebar 
+    SidebarSeparator,
 } from '../ui/sidebar'
 import { 
     Bot, 
