@@ -1,7 +1,27 @@
 'use client'
 import React from 'react'
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarSeparator, useSidebar } from '../ui/sidebar'
-import { Bot, CreditCard, FileText, History, LayoutDashboard, Plus, Presentation, Upload } from 'lucide-react'
+import { 
+    Sidebar, 
+    SidebarContent, 
+    SidebarFooter, 
+    SidebarGroup, 
+    SidebarGroupContent, 
+    SidebarGroupLabel, 
+    SidebarHeader, 
+    SidebarMenu, 
+    SidebarMenuButton, 
+    SidebarMenuItem, 
+    SidebarSeparator, 
+    useSidebar 
+} from '../ui/sidebar'
+import { 
+    Bot, 
+    CreditCard, 
+    FileText, 
+    History, 
+    LayoutDashboard, 
+    Upload 
+} from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { usePathname } from 'next/navigation'
@@ -36,7 +56,7 @@ const items = [
 
 export default function AppSidebar() {
   const pathname = usePathname()
-  const { open } = useSidebar()
+//   const { open } = useSidebar()
 
   return (
     <Sidebar collapsible='icon' variant='floating'>
