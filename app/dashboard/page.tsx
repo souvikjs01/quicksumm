@@ -3,10 +3,9 @@
 import { extractTextFromPDF } from "@/lib/pdf-utils"
 import { useCallback, useState } from "react"
 
-export default function page() {
+export default function Page() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [summary, setSummary] = useState('')
-  // const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   // const [userData, setUserData] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -28,9 +27,7 @@ export default function page() {
     setSummary('')
     setLoading(true)
     try {
-      const text = await extractTextFromPDF(selectedFile)
-      console.log("text is : " + text);
-      
+      const text = await extractTextFromPDF(selectedFile)      
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: {
@@ -45,8 +42,7 @@ export default function page() {
         throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
       }
 
-      const data = await response.json()
-      console.log(data);      
+      const data = await response.json()      
       setSummary(data.summary || 'No summary was generated.')
     } catch (err) {      
       setError(err instanceof Error ? err.message : 'Failed to analyze PDF.')

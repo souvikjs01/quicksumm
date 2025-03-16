@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button'
 import { navLinks } from '@/lib/constants'
-import { useAuth, useClerk, UserButton } from '@clerk/nextjs'
+import { useAuth, UserButton } from '@clerk/nextjs'
 
 export default function Header() {
   const { isSignedIn } = useAuth()
