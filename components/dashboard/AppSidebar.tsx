@@ -24,6 +24,7 @@ import {
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { usePathname } from 'next/navigation'
+import UpgradePro from './UpgradePro'
 
 const items = [
     {
@@ -96,14 +97,7 @@ export default function AppSidebar() {
         
         <SidebarSeparator className=' w-3/4 mx-auto'/>
         <SidebarFooter>
-            <div className="flex flex-col items-center justify-center p-4">
-                <p className="text-sm text-muted-foreground mb-2">Unlock more features</p>
-                <Link href="/pricing">
-                    <button className="w-full bg-primary text-white font-medium py-2 rounded-lg hover:bg-primary/90 transition">
-                        Upgrade to Pro
-                    </button>
-                </Link>
-            </div>
+            <UpgradePro />
         </SidebarFooter>
     </Sidebar>
   )
