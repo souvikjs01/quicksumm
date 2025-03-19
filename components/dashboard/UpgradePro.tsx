@@ -1,3 +1,4 @@
+'use client'
 import { ArrowRight, Zap } from 'lucide-react'
 import React from 'react'
 import { 
@@ -9,9 +10,13 @@ import {
     CardTitle 
 } from '../ui/card'
 import { Button } from '../ui/button'
-import Link from 'next/link'
+import { createCheckoutSession } from '@/lib/stripe-actions'
 
 export default function UpgradePro() {
+  const isSubscribed = false
+  const handleClick = async () => {
+    await createCheckoutSession()  
+  }
   return (
     <Card className="border-none bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 shadow-none gap-y-2">
       <CardHeader className="pb-2">
@@ -46,11 +51,13 @@ export default function UpgradePro() {
       </CardContent>
 
       <CardFooter>
-        <Button asChild size="sm" className="w-full gap-1 text-xs">
-          <Link href="#" className=' flex items-center'>
-            Upgrade now
-            <ArrowRight className="h-3 w-3" />
-          </Link>
+        <Button
+          size="sm" 
+          className="w-full gap-1 text-xs flex items-center"
+          onClick={handleClick}
+        >
+          {isSubscribed ? 'Manage Subscription' : 'Upgrade now'}
+          <ArrowRight className="h-3 w-3" />
         </Button>
       </CardFooter>
     </Card>

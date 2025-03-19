@@ -8,26 +8,25 @@ datasource db {
 }
 
 model User {
-  id               String        @id @unique
+  id               String        @id
   email            String        @unique
   stripeCustomerId String?       @unique
   firstName        String
   lastName         String
   imageUrl         String?
-  quota            Int @default(10)
+  quota            Int           @default(10)
   subscription     Subscription?
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
 }
 
 model Subscription {
-  stripeSubscriptionId String   @id @unique
+  id                   String   @id @default(cuid())
   currentPeriodStart   DateTime
   currentPeriodEnd     DateTime
+  stripeSubscriptionId String   @unique
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
-  // interval             String
-  // planId               String
   userId               String   @unique
   user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
