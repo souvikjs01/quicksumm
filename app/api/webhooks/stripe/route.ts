@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     try {
         event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!)
     } catch (error) {
-        return NextResponse.json({message: 'Invalid signature'}, { status: 400 })
+        return NextResponse.json({message: 'Invalid signature ' + error }, { status: 400 })
     }
 
     const session = event.data.object as Stripe.Checkout.Session
