@@ -30,12 +30,8 @@ export async function POST(req: Request) {
         }
 
         try {
-            // Fetch subscription details from Stripe
-            const subscription = await stripe.subscriptions.retrieve(
-              stripeSubscriptionId
-            );
+            const subscription = await stripe.subscriptions.retrieve(stripeSubscriptionId);
             
-            // Create or update the subscription in your database
             await prisma.user.update({
               where: { id: userId },
               data: {
