@@ -7,8 +7,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { extractTextFromPDF } from "@/lib/pdf-utils"
+import { manageQuota } from "@/lib/quota-actions"
 import { AlertCircle, CheckCircle, FileText, Loader2, Upload } from "lucide-react"
 import { useCallback, useState } from "react"
+import { toast } from "sonner"
 
 export default function Page() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -22,8 +24,6 @@ export default function Page() {
     if (!e.target.files?.[0]) return
     setSelectedFile(e.target.files[0])
   }
-
-
 
   const handleAnalyze = useCallback(async () => {
     if (!selectedFile) {
@@ -51,6 +51,18 @@ export default function Page() {
 
       const data = await response.json()      
       setSummary(data.summary || 'No summary was generated.')
+
+      // decrease quota:
+      const quotaRes = await manageQuota();
+      if(quotaRes.error && !quotaRes.upgrade) {
+        toast.error('Something went wrong')
+      } else if(quotaRes.upgrade) {
+        toast.error("You are out of your quota, upgrade now!")
+        return;
+      } else if(quotaRes.success) {
+        toast.success("Analyze successfully");
+      }
+
     } catch (err) {      
       setError(err instanceof Error ? err.message : 'Failed to analyze PDF.')
     } finally {
@@ -183,55 +195,5 @@ export default function Page() {
         </Card>
       )}
     </div>
-
-    // <div>
-    //   dashboard
-    //   <div className="space-y-6">
-    //     <div className="relative group">
-    //       <input
-    //         type="file"
-    //         onChange={handleFileChange}
-    //         accept=".pdf"
-    //         className="block w-full text-gray-400 file:mr-4 file:py-3 file:px-6 
-    //                   file:rounded-xl file:border-0 file:text-sm file:font-medium
-    //                   file:bg-gradient-to-r file:from-purple-500 file:to-pink-500 
-    //                   file:text-white hover:file:opacity-90 transition-all
-    //                   focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
-    //       />
-    //     </div>
-    //     <button
-    //       onClick={handleAnalyze}
-    //       disabled={!selectedFile || loading}
-    //       className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium
-    //               py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02]
-    //                disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100
-    //               shadow-lg hover:shadow-purple-500/25"
-    //     >
-    //       {loading ? 'Processing...' : 'Analyze Document'}
-    //     </button>
-    //     {error && <p>{error}</p>}
-    //     <p>summary:--{summary}</p>
-    //     {/* {summary && (
-    //           <div className="bg-[#1A1A23] rounded-2xl p-8 shadow-2xl border border-[#2A2A35] animate-fade-in">
-    //             <div className="flex items-center mb-8">
-    //               <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-    //                 Document Insights
-    //               </h2>
-    //             </div>
-                
-    //             <div className="prose prose-invert max-w-none">
-    //               {formatSummaryContent(summary)}
-    //             </div>
-                
-    //             <div className="mt-8 pt-6 border-t border-[#2A2A35] flex items-center justify-between text-sm text-gray-400">
-    //               <span>Generated at {new Date().toLocaleTimeString()}</span>
-    //               <span className="px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs">
-    //                 AI Summary
-    //               </span>
-    //             </div>
-    //           </div>
-    //         )} */}
-    //   </div>       
-    // </div>
   )
 }
