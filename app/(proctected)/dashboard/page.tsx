@@ -27,7 +27,7 @@ export default async function page() {
 
   const userPlan = userData.data?.pro
 
-  const percentUsed = (userData.data?.quotaCount! / (userPlan ? 60 : 10)) * 100
+  const percentUsed = (userData.data?.quotaCount ?? 0 / (userPlan ? 60 : 10)) * 100
 
   return (
     <div className="flex flex-col gap-6 p-6">
