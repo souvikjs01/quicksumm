@@ -25,7 +25,7 @@ export default async function page() {
     return
   }
 
-  let userPlan = userData.data?.pro
+  const userPlan = userData.data?.pro
 
   const percentUsed = (userData.data?.quotaCount! / (userPlan ? 60 : 10)) * 100
 
