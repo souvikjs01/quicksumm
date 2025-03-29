@@ -18,7 +18,6 @@ export default function Page() {
   const [error, setError] = useState('')
   // const [userData, setUserData] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState(false);
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {    
     setError('')
     if (!e.target.files?.[0]) return
@@ -71,12 +70,39 @@ export default function Page() {
   }, [selectedFile])
 
   const formatSummaryContent = (text: string) => {
-    return text.split('\n').map((paragraph, index) => (
-      <p key={index} className="mb-4 text-gray-600 leading-relaxed">
-        {paragraph.replace(/^\s*(?:\*\*|[-•*])\s*/, '• ')}
-      </p>
-    ))
+    let formatted = text.replace(/\*\*/g, '');
+
+    // Replace single * at start of line with hyphen for bullet points
+    formatted = formatted.replace(/^\s*\*\s+/gm, '- ');
+
+    // Remove any remaining * markers (not at start of line)
+    formatted = formatted.replace(/\*/g, '');
+
+    // Ensure proper spacing after colons
+    formatted = formatted.replace(/:\s*\n/g, ':\n\n');
+
+    // Trim whitespace from each line
+    formatted = formatted
+      .split('\n')
+      .map(line => line.trim())
+      .join('\n');
+
+    const items = formatted.split('\n')
+      .filter(line => line.trim().startsWith('- '))
+      .map(item => item.substring(2).trim());
+    // console.log("length "  + items.length);
+    return items;
   }
+
+  // const progress = ((currentStep + 1) / steps.length) * 100
+
+  // const formatSummaryContent = (text: string) => {
+  //   return text.split('\n').map((paragraph, index) => (
+  //     <p key={index} className="mb-4 text-gray-600 leading-relaxed">
+  //       {paragraph.replace(/^\s*(?:\*\*|[-•*])\s*/, '• ')}
+  //     </p>
+  //   ))
+  // }
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-5xl">
@@ -91,6 +117,48 @@ export default function Page() {
         </CardHeader>
         <Separator />
         <CardContent className="pt-6 space-y-6">
+          {summary && !loading && (
+            <Card className="mt-8 border-none shadow-xl overflow-hidden">
+              <div className="absolute top-0 right-0 w-full h-1/2 bg-gradient-to-br from-primary/10 to-purple-500/5 blur-3xl -z-10" />
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-2xl font-bold flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    Document Insights
+                  </CardTitle>
+                  <Badge className="bg-primary/20 text-primary hover:bg-primary/30">AI Summary</Badge>
+                </div>
+                <CardDescription>
+                  Generated at {new Date().toLocaleTimeString()} • {selectedFile?.name}
+                </CardDescription>
+              </CardHeader>
+              <Separator className="mb-4" />
+              <CardContent>
+                <div className="prose prose-sm dark:prose-invert max-w-none">{formatSummaryContent(summary)}</div>
+              </CardContent>
+              <CardFooter className="flex justify-end pt-4 text-sm text-muted-foreground">
+                <p>Powered by AI analysis</p>
+              </CardFooter>
+            </Card>
+          )}
+
+          {loading && (
+            <Card className="mt-8 border-none shadow-xl">
+              <CardHeader>
+                <Skeleton className="h-6 w-1/3 mb-2" />
+                <Skeleton className="h-4 w-1/2" />
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {[...Array(4)].map((_, index) => (
+                  <Skeleton key={index} className="h-4 w-full" />
+                ))}
+              </CardContent>
+              <CardFooter>
+                  <Skeleton className="h-4 w-1/4" />
+              </CardFooter>
+            </Card>
+          )}
+
           <div className="relative group">
             <div className="border-2 border-dashed border-muted-foreground/20 rounded-xl p-8 transition-all hover:border-primary/50 text-center">
               <input
@@ -151,49 +219,6 @@ export default function Page() {
           </Button>
         </CardContent>
       </Card>
-
-      {loading && (
-        <Card className="mt-8 border-none shadow-xl">
-          <CardHeader>
-            <Skeleton className="h-6 w-1/3 mb-2" />
-            <Skeleton className="h-4 w-1/2" />
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {[...Array(4)].map((_, index) => (
-              <Skeleton key={index} className="h-4 w-full" />
-            ))}
-          </CardContent>
-          <CardFooter>
-            <Skeleton className="h-4 w-1/4" />
-          </CardFooter>
-        </Card>
-      )}
-
-
-      {summary && !loading && (
-        <Card className="mt-8 border-none shadow-xl overflow-hidden">
-          <div className="absolute top-0 right-0 w-full h-1/2 bg-gradient-to-br from-primary/10 to-purple-500/5 blur-3xl -z-10" />
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-2xl font-bold flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-500" />
-                Document Insights
-              </CardTitle>
-              <Badge className="bg-primary/20 text-primary hover:bg-primary/30">AI Summary</Badge>
-            </div>
-            <CardDescription>
-              Generated at {new Date().toLocaleTimeString()} • {selectedFile?.name}
-            </CardDescription>
-          </CardHeader>
-          <Separator className="mb-4" />
-          <CardContent>
-            <div className="prose prose-sm dark:prose-invert max-w-none">{formatSummaryContent(summary)}</div>
-          </CardContent>
-          <CardFooter className="flex justify-end pt-4 text-sm text-muted-foreground">
-            <p>Powered by AI analysis</p>
-          </CardFooter>
-        </Card>
-      )}
     </div>
   )
 }
