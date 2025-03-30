@@ -3,12 +3,25 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardFooter, 
+  CardHeader, 
+  CardTitle 
+} from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { extractTextFromPDF } from "@/lib/pdf-utils"
 import { manageQuota } from "@/lib/quota-actions"
-import { AlertCircle, CheckCircle, FileText, Loader2, Upload } from "lucide-react"
+import { 
+  AlertCircle, 
+  CheckCircle, 
+  FileText, 
+  Loader2, 
+  Upload 
+} from "lucide-react"
 import { useCallback, useState } from "react"
 import { toast } from "sonner"
 
@@ -18,6 +31,7 @@ export default function Page() {
   const [error, setError] = useState('')
   // const [userData, setUserData] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState(false);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {    
     setError('')
     if (!e.target.files?.[0]) return
@@ -68,7 +82,7 @@ export default function Page() {
       setLoading(false)
     }
   }, [selectedFile])
-
+  
   const formatSummaryContent = (text: string) => {
     let formatted = text.replace(/\*\*/g, '');
 
@@ -80,35 +94,25 @@ export default function Page() {
 
     // Ensure proper spacing after colons
     formatted = formatted.replace(/:\s*\n/g, ':\n\n');
-
+    
     // Trim whitespace from each line
     formatted = formatted
       .split('\n')
       .map(line => line.trim())
       .join('\n');
-
-    const items = formatted.split('\n')
-      .filter(line => line.trim().startsWith('- '))
-      .map(item => item.substring(2).trim());
-    // console.log("length "  + items.length);
-    return items;
+    
+    return formatted.split('\n').map((paragraph, index) => (
+      <p key={index} className="mb-4 text-gray-800 leading-relaxed font-medium">
+        {paragraph.replace(/^\s*(?:\*\*|[-•*])\s*/, '• ')}
+      </p>
+    ))
   }
-
-  // const progress = ((currentStep + 1) / steps.length) * 100
-
-  // const formatSummaryContent = (text: string) => {
-  //   return text.split('\n').map((paragraph, index) => (
-  //     <p key={index} className="mb-4 text-gray-600 leading-relaxed">
-  //       {paragraph.replace(/^\s*(?:\*\*|[-•*])\s*/, '• ')}
-  //     </p>
-  //   ))
-  // }
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-5xl">
-      <Card className="border-none shadow-lg bg-gradient-to-br from-background to-background/80 backdrop-blur">
+      <Card className="border-none shadow-lg">
         <CardHeader className="pb-4">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold text-transparent">
             QuickSumm
           </CardTitle>
           <CardDescription className="text-muted-foreground text-base">
@@ -134,8 +138,11 @@ export default function Page() {
               </CardHeader>
               <Separator className="mb-4" />
               <CardContent>
-                <div className="prose prose-sm dark:prose-invert max-w-none">{formatSummaryContent(summary)}</div>
+                <div className="prose prose-sm dark:prose-invert max-w-2xl mx-auto">                  
+                   {formatSummaryContent(summary)}
+                </div>
               </CardContent>
+
               <CardFooter className="flex justify-end pt-4 text-sm text-muted-foreground">
                 <p>Powered by AI analysis</p>
               </CardFooter>
