@@ -1,17 +1,23 @@
+'use client'
 import AppSidebar from '@/components/dashboard/AppSidebar'
-import { SidebarProvider } from '@/components/ui/sidebar'
+import { SidebarProvider, useSidebar } from '@/components/ui/sidebar'
 import { UserButton } from '@clerk/nextjs'
+import { Menu } from 'lucide-react'
 import React from 'react'
 
 export default function layout({children}: {children: React.ReactNode}) {
+  const { open, setOpen } = useSidebar()
+
   return (
     <SidebarProvider>
         <AppSidebar />
         
         <main className='w-full m-2'>
-            <div className='flex items-center gap-2 border-sidebar-border border shadow rounded-md p-2 px-4 py-4'>
-                <div className=' ml-auto'></div>
-                <UserButton />
+            <div className='flex items-center justify-between border-sidebar-border border shadow rounded-md p-2 px-4 py-4'>
+                {/* <div className=' ml-auto'></div> */}
+                <Menu className='md:hidden' onClick={() => setOpen(!open)}/>
+                <div className=' hidden md:block'></div>
+                <UserButton /> 
             </div>
 
             {/* main section */}

@@ -1,6 +1,9 @@
-import { SubscriptionBanner } from '@/components/dashboard/SubscriptionBanner'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Progress } from '@/components/ui/progress'
+import { 
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle 
+} from '@/components/ui/card'
 import { isUserPro } from '@/lib/actions/user-actions'
 import { auth } from '@clerk/nextjs/server'
 import { 
@@ -25,9 +28,6 @@ export default async function page() {
     return
   }
 
-  const userPlan = userData.data?.pro
-
-  const percentUsed = (userData.data?.quotaCount ?? 0 / (userPlan ? 60 : 10)) * 100
 
   return (
     <div className="flex flex-col gap-6 p-6">
@@ -36,8 +36,6 @@ export default async function page() {
         <p className="text-muted-foreground">Welcome back! Here's an overview of your PDF summaries.</p>
       </div>
 
-      {!userData.data?.pro && <SubscriptionBanner />}
-
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -45,13 +43,13 @@ export default async function page() {
             <Zap className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            {/* <div className="text-2xl font-bold">
               {userData.data?.quotaCount} / {userData.data?.pro ? 60 : 10}
-            </div>
-            <Progress value={percentUsed} className="mt-2" />
-            <p className="mt-2 text-xs text-muted-foreground">
+            </div> */}
+            {/* <Progress value={percentUsed} className="mt-2" /> */}
+            {/* <p className="mt-2 text-xs text-muted-foreground">
               {userPlan ? "Free plan: 10 PDFs per month" : "Pro plan: 60 PDFs per month"}
-            </p>
+            </p> */}
           </CardContent>
         </Card>
 
