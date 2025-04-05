@@ -1,5 +1,5 @@
 import AppSidebar from '@/components/dashboard/AppSidebar'
-import { SidebarProvider, useSidebar } from '@/components/ui/sidebar'
+import { SidebarProvider } from '@/components/ui/sidebar'
 import { UserButton } from '@clerk/nextjs'
 import React from 'react'
 
